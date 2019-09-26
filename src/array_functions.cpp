@@ -13,7 +13,10 @@
 #include <string>
 
 #include "constants.h"
+#include "utilities.h"
 #include "array_functions.h"
+using namespace std;
+using namespace constants;
 //============================================================================
 
 //============================================================================
@@ -21,27 +24,43 @@
 //============================================================================
 //TODO define a structure to track words and number of times they occur
 
+struct info_thing{
+	string element="";
+	int num=0;
+
+};
+
 //TODO add a global array of entry structs (global to this file)
+
+struct info_thing arrayofinfothings[MAX_WORDS];
 
 //TODO add variable to keep track of next available slot in array
 
+int len_array=0;
+
 //TODO define all functions in header file
+
 
 //TODO look in utilities.h for useful functions, particularly strip_unwanted_chars!
 //zero out array that tracks words and their occurrences
 void clearArray(){
-
-}
-
+	for (int i=0;i<len_array;i++){
+		arrayofinfothings[i].element="";
+		arrayofinfothings[1].num=0;
+		}
+	}
 //how many unique words are in array
 int getArraySize(){
-	return 0;
+
+	return len_array;
 }
 
 //get data at a particular location
-std::string getArrayWordAt(int i);
+std::string getArrayWordAt(int i){
+	return arrayofinfothings[i].element;
+}
 int getArrayWord_NumbOccur_At(int i){
-	return 0;
+	return arrayofinfothings[i].num;
 }
 
 /*loop through whole file, one line at a time
@@ -49,13 +68,18 @@ int getArrayWord_NumbOccur_At(int i){
  * returns false: myfstream is not open
  *         true: otherwise*/
 bool processFile(std::fstream &myfstream){
+
 	return true;
 }
 
 /*take 1 line and extract all the tokens from it
 feed each token to processToken for recording*/
 void processLine(std::string &myString){
-
+	stringstream ss(myString);
+	string tempToken;
+	while(getline(ss,tempToken, CHAR_TO_SEARCH_FOR)){
+		processToken(tempToken);
+	}
 }
 
 /*Keep track of how many times each token seen*/
@@ -68,12 +92,15 @@ void processToken(std::string &token){
 bool openFile(std::fstream& myfile, const std::string& myFileName,
 	std::ios_base::openmode mode)
 {
-	return true;
+	myfile.open(myFileName.c_str(), mode);
+	return myfile.is_open();
 }
 
 /*iff myfile is open then close it*/
 void closeFile(std::fstream& myfile){
-
+	if (myfile.is_open()){
+		myfile.close();
+	}
 }
 
 /* serializes all content in myEntryArray to file outputfilename
@@ -82,7 +109,19 @@ void closeFile(std::fstream& myfile){
  * 			SUCCESS if all data is written and outputfilename closes OK
  * */
 int writeArraytoFile(const std::string &outputfilename){
-	return 0;
+	if(len_array==0){
+		return FAIL_NO_ARRAY_DATA;}
+	fstream Roach;
+	Roach.open(outputfilename.c_str(),ios::out);
+	if(!Roach.is_open()){
+		return FAIL_FILE_DID_NOT_OPEN;}
+	if(Roach.is_open()){
+		for(int i=0; i<len_array;i++){
+			Roach<<arrayofinfothings[i].element<<" "<<arrayofinfothings[i].num<<endl;
+		}
+		Roach.close;
+		return SUCCESS;
+	}
 }
 
 /*
@@ -91,5 +130,9 @@ int writeArraytoFile(const std::string &outputfilename){
  * The presence of the enum implies a switch statement based on its value
  */
 void sortArray(constants::sortOrder so){
+	switch(so){
+	case 1: if(so==)
+	}
+
 
 }
